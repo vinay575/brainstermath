@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration - BrainsterMath</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+  <style>
+    :root {
+      --primary-purple: #7e62a8;
+      --dark-text: #271d47;
+    }
+    
+       
+   body {
+    font-family: 'Satoshi', sans-serif; /* Fallback to sans-serif if Satoshi is unavailable */
+    background: linear-gradient(135deg, #f5f3ff 0%, #e0e7ff 100%);
+    margin: 0;       /* Remove default margin */
+    padding: 0;      /* Remove default padding */
+    min-height: 100vh; /* Ensure it covers full viewport height */
+}
+
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 0, 0, 0.445);
+    }
+    
+    .input-field {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid #9b9b9b;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary-purple);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-submit:hover {
+      background: #6b52a3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(126, 98, 168, 0.4);
+    }
+  </style>
+</head>
+<body class=" from-purple-50 via-teal-50 to-green-50 min-h-screen flex items-center justify-center p-4">
+  <div class="glass-card rounded-3xl p-6 max-w-md w-full shadow-2xl animate-fade-in">
+    <!-- Logo and Header -->
+    <div class="text-center mb-6">
+      <img src="images/logo_math.svg" alt="BrainsterMath Logo" class="h-20 mx-auto mb-4">
+      <h1 class="text-2xl font-bold mb-2" style="color: var(--dark-text)"></h1>
+      <p class="text-gray-600">Create your student account</p>
+    </div>
+
+    <!-- Error Alert -->
+    <div id="errorAlert" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 hidden">
+      <p class="text-sm" id="errorMessage"></p>
+    </div>
+
+    <!-- Registration Form -->
+    <form id="signupForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
+        <input 
+          type="text" 
+          id="fullName"
+          required
+          placeholder="Enter your full name"
+          class="input-field w-full px-4 py-3 border  rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+        >
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
+        <input 
+          type="email" 
+          id="email"
+          required
+          placeholder="your.email@example.com"
+          class="input-field w-full px-4 py-3 border  rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+        >
+      </div>
+
+      <!-- Side by Side Password & Phone -->
+      <div class="flex gap-4">
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Password *</label>
+          <input 
+            type="password" 
+            id="password"
+            required
+            minlength="6"
+            placeholder="At least 6 characters"
+            class="input-field w-full px-4 py-3 border  rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+          >
+        </div>
+
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+          <input 
+            type="tel" 
+            id="phone"
+            placeholder="Optional"
+            class="input-field w-full px-4 py-3 border  rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+          >
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Address</label>
+        <textarea 
+          id="address"
+          rows="2"
+          placeholder="Optional"
+          class="input-field w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition resize-none"
+        ></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Select Your Level *</label>
+        <select 
+          id="level"
+          required
+          class="input-field w-full px-4 py-3 border  rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+        >
+          <option value="">Choose level...</option>
+          <option value="1">Level 1 - Beginner</option>
+          <option value="2">Level 2</option>
+          <option value="3">Level 3</option>
+          <option value="4">Level 4</option>
+          <option value="5">Level 5</option>
+          <option value="6">Level 6</option>
+          <option value="7">Level 7</option>
+          <option value="8">Level 8 - Advanced</option>
+        </select>
+      </div>
+
+      <button 
+        type="submit" 
+        id="signupButton"
+        class="btn-submit"
+      >
+        Create Account
+      </button>
+      
+    </form>
+
+    <!-- Login Link -->
+    <div class="mt-4 text-center">
+      <p class="text-sm text-gray-600">
+        Already have an account? 
+        <a href="index.html" class="text-purple-600 font-semibold hover:text-purple-700 transition">
+          Sign In
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/signup.js"></script>
+</body>
+</html>

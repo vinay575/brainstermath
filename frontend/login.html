@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - BrainsterMath</title>
+  <meta name="description" content="BrainsterMath E-Learning Platform - Unleashing the Genius in Every Child">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-purple: #7e62a8;
+      --dark-text: #271d47;
+    }
+    
+   body {
+    font-family: 'Satoshi', sans-serif; /* Fallback to sans-serif if Satoshi is unavailable */
+    background: linear-gradient(135deg, #f5f3ff 0%, #e0e7ff 100%);
+    margin: 0;       /* Remove default margin */
+    padding: 0;      /* Remove default padding */
+    min-height: 100vh; /* Ensure it covers full viewport height */
+}
+
+    
+    .form-slider {
+      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .toggle-btn {
+      transition: all 0.3s ease;
+      cursor: pointer;
+      padding: 0.75rem 2rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+    }
+    
+    .toggle-btn.active {
+      background:  #7f62ab;
+      color: white;
+      box-shadow: 0 4px 12px rgba(126, 98, 168, 0.3);
+    }
+    
+    .toggle-btn:not(.active) {
+      color: var(--dark-text);
+      background: transparent;
+    }
+    
+    .toggle-btn:not(.active):hover {
+      background: rgba(126, 98, 168, 0.1);
+    }
+    
+
+  .glass {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 0, 0, 0.445);
+    }
+    
+
+    .input-field {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid #9b9b9b;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary-purple);
+      box-shadow: 0 0 0 3px rgba(126, 98, 168, 0.1);
+    }
+    
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary-purple);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-submit:hover {
+      background: #6b52a3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(126, 98, 168, 0.4);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+  <div class="glass bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md">
+    <!-- Logo -->
+    <div class="text-center mb-6">
+      <img src="images/logo_math.svg" alt="BrainsterMath Logo" class="h-20 mx-auto mb-4">
+      <h1 class="text-3xl font-bold mb-2" style="color: var(--dark-text)"></h1>
+     
+    </div>
+    
+    <!-- Toggle Switch -->
+    <div class="flex bg-gray-100 rounded-lg p-1 mb-8">
+      <button 
+        id="studentToggle" 
+        class="toggle-btn active flex-1"
+        onclick="switchForm('student')"
+      >
+        Student
+      </button>
+      <button 
+        id="adminToggle" 
+        class="toggle-btn flex-1"
+        onclick="switchForm('admin')"
+      >
+        Admin
+      </button>
+    </div>
+    
+    <!-- Forms Container -->
+    <div class="overflow-hidden">
+      <div class="form-slider flex" style="width: 200%; transform: translateX(0%);">
+        <!-- Student Login Form -->
+        <div class="w-1/2 px-2">
+          <!-- Error Alert -->
+          <div id="studentError" class="hidden mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+            <p id="studentErrorMessage"></p>
+          </div>
+          
+          <form id="studentLoginForm" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: var(--dark-text)">Email</label>
+              <input 
+                type="email" 
+                name="email"
+                required
+                class="input-field"
+                placeholder="student@example.com"
+              >
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: var(--dark-text)">Password</label>
+              <input 
+                type="password" 
+                name="password"
+                required
+                class="input-field"
+                placeholder="••••••••"
+              >
+            </div>
+            
+            <button type="submit" class="btn-submit">
+              Sign In as Student
+            </button>
+          </form>
+          
+          <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">
+              Don't have an account? 
+              <a href="student-signup.html" class="font-semibold hover:underline" style="color: var(--primary-purple)">
+                Sign Up
+              </a>
+            </p>
+          </div>
+        </div>
+        
+        <!-- Admin Login Form -->
+        <div class="w-1/2 px-2">
+          <!-- Error Alert -->
+          <div id="adminError" class="hidden mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+            <p id="adminErrorMessage"></p>
+          </div>
+          
+          <form id="adminLoginForm" class="space-y-4">
+  <div>
+    <label class="block text-sm font-medium mb-2" style="color: var(--dark-text)">Email</label>
+    <input 
+      type="email" 
+      name="email"
+      required
+      class="input-field"
+      placeholder="admin@example.com"
+    >
+  </div>
+  
+  <div>
+    <label class="block text-sm font-medium mb-2" style="color: var(--dark-text)">Password</label>
+    <input 
+      type="password" 
+      name="password"
+      required
+      class="input-field"
+      placeholder="••••••••"
+    >
+  </div>
+
+  <!-- New Admin Key Field -->
+  <div>
+    <label class="block text-sm font-medium mb-2" style="color: var(--dark-text)">Admin Key</label>
+    <input 
+      type="password" 
+      name="adminKey"
+      required
+      class="input-field"
+      placeholder="Enter Admin Key"
+    >
+  </div>
+  
+  <button type="submit" class="btn-submit">
+    Sign In as Admin
+  </button>
+</form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const API_URL = 'http://localhost:3000/api';
+    let currentForm = 'student';
+    
+    // Switch between forms
+    function switchForm(type) {
+      currentForm = type;
+      const slider = document.querySelector('.form-slider');
+      const studentToggle = document.getElementById('studentToggle');
+      const adminToggle = document.getElementById('adminToggle');
+      
+      if (type === 'student') {
+        slider.style.transform = 'translateX(0%)';
+        studentToggle.classList.add('active');
+        adminToggle.classList.remove('active');
+      } else {
+        slider.style.transform = 'translateX(-50%)';
+        adminToggle.classList.add('active');
+        studentToggle.classList.remove('active');
+      }
+    }
+    
+    // Student Login
+    document.getElementById('studentLoginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {
+        email: formData.get('email'),
+        password: formData.get('password'),
+        role: 'student'
+      };
+      
+      try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+          showError('student', result.error || 'Login failed');
+          return;
+        }
+        
+        // Store auth data
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('role', result.user.role);
+        localStorage.setItem('email', result.user.email);
+        localStorage.setItem('level', result.user.level);
+        localStorage.setItem('studentId', result.user.studentId);
+        localStorage.setItem('accessibleLevels', JSON.stringify(result.user.accessibleLevels || [result.user.level]));
+        
+        window.location.href = 'student-dashboard-enhanced.html';
+      } catch (error) {
+        console.error('Login error:', error);
+        showError('student', 'Failed to connect to server');
+      }
+    });
+    
+    // Admin Login
+    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {
+        email: formData.get('email'),
+        password: formData.get('password'),
+        role: 'admin'
+      };
+      
+      try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+          showError('admin', result.error || 'Login failed');
+          return;
+        }
+        
+        // Store auth data
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('role', result.user.role);
+        localStorage.setItem('email', result.user.email);
+        
+        window.location.href = 'admin-dashboard-enhanced.html';
+      } catch (error) {
+        console.error('Login error:', error);
+        showError('admin', 'Failed to connect to server');
+      }
+    });
+    
+    function showError(type, message) {
+      const errorDiv = document.getElementById(`${type}Error`);
+      const errorMessage = document.getElementById(`${type}ErrorMessage`);
+      errorMessage.textContent = message;
+      errorDiv.classList.remove('hidden');
+      
+      setTimeout(() => {
+        errorDiv.classList.add('hidden');
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

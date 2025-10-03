@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Player - BrainsterMath</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+      <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-purple: #7e62a8;
+      --dark-text: #271d47;
+    }
+    * {
+    font-family: 'Satoshi', sans-serif !important;
+}
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-blue-50 min-h-screen">
+  <!-- Header -->
+  <header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <button 
+            onclick="backToDashboard()"
+            class="text-[#7e62a8] hover:text-[#6b52a3] transition font-medium"
+          >
+            ← Back to Dashboard
+          </button>
+        </div>
+        <div class="flex items-center space-x-3">
+          <img src="images/logo_math.svg" alt="BrainsterMath" class="h-8 w-auto">
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Loading State -->
+    <div id="loadingState" class="text-center py-12">
+      <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#7e62a8] border-t-transparent"></div>
+      <p class="mt-4 text-gray-600">Loading video...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="hidden">
+      <div class="bg-white rounded-2xl p-8 text-center shadow-sm">
+        <div class="text-6xl mb-4">❌</div>
+        <h2 class="text-2xl font-bold mb-2" style="color: var(--dark-text)">Video Not Found</h2>
+        <p class="text-gray-600 mb-6" id="errorMessage">This video doesn't exist.</p>
+        <button 
+          onclick="backToDashboard()"
+          class="inline-block px-6 py-3 text-white rounded-lg font-semibold hover:opacity-90 transition"
+          style="background-color: var(--primary-purple)"
+        >
+          Return to Dashboard
+        </button>
+      </div>
+    </div>
+
+    <!-- Video Content -->
+    <div id="videoContent" class="hidden">
+      <!-- Video Info -->
+      <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+        <h1 class="text-3xl font-bold mb-2" style="color: var(--dark-text)" id="videoTitle">Loading...</h1>
+        <div class="flex items-center space-x-4 text-sm text-gray-600">
+        </div>
+      </div>
+
+      <!-- Video Player -->
+      <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+        <div class="aspect-video bg-black rounded-xl overflow-hidden">
+          <iframe 
+            id="videoPlayer"
+            class="w-full h-full"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            title="BrainsterMath Video"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <button 
+          id="prevVideo"
+          onclick="navigateVideo(-1)"
+          class="bg-white rounded-xl p-6 text-left hover:shadow-lg transition border-2 border-transparent hover:border-[#7e62a8] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-transparent"
+        >
+          <div class="flex items-center mb-2">
+            <svg class="w-6 h-6 mr-2" style="color: var(--primary-purple)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span class="font-semibold text-lg" style="color: var(--dark-text)">Previous Video</span>
+          </div>
+          <p class="text-sm text-gray-600 ml-8" id="prevVideoInfo">Loading...</p>
+        </button>
+        
+        <button 
+          id="nextVideo"
+          onclick="navigateVideo(1)"
+          class="bg-white rounded-xl p-6 text-right hover:shadow-lg transition border-2 border-transparent hover:border-[#7e62a8] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-transparent"
+        >
+          <div class="flex items-center justify-end mb-2">
+            <span class="font-semibold text-lg" style="color: var(--dark-text)">Next Video</span>
+            <svg class="w-6 h-6 ml-2" style="color: var(--primary-purple)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <p class="text-sm text-gray-600 mr-8" id="nextVideoInfo">Loading...</p>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/video-player.js"></script>
+</body>
+</html>

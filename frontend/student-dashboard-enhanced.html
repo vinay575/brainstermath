@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard - BrainsterMath</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-purple: #7e62a8;
+      --dark-text: #271d47;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-blue-50 min-h-screen">
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <img src="images/logo_math.svg" alt="BrainsterMath" class="h-10 w-auto">
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="text-right">
+            <p class="text-sm font-medium" style="color: var(--dark-text)" id="studentEmail">Loading...</p>
+          </div>
+          <div class="relative">
+            <button 
+              onclick="toggleNotifications()"
+              class="p-2 rounded-lg hover:bg-gray-100 transition relative"
+            >
+              <svg class="w-6 h-6" style="color: var(--primary-purple)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+              </svg>
+              <span id="notificationBadge" class="hidden absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"></span>
+            </button>
+            <!-- Notifications Panel -->
+            <div id="notificationsPanel" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 p-4 z-50">
+              <h3 class="font-bold text-lg mb-3" style="color: var(--dark-text)">My Requests</h3>
+              <div id="myRequests" class="space-y-2 max-h-96 overflow-y-auto"></div>
+            </div>
+          </div>
+          <button 
+            onclick="logout()"
+            class="px-4 py-2 text-sm font-medium text-white rounded-lg transition hover:opacity-90"
+            style="background-color: var(--primary-purple)"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Welcome Section -->
+    <div class="bg-white rounded-2xl p-6 mb-8 shadow-sm">
+      <h2 class="text-3xl font-bold mb-2" style="color: var(--dark-text)">Welcome Back! 🎓</h2>
+      <p class="text-gray-600 mb-4">Ready to continue your math journey?</p>
+      
+      <!-- Level Badges -->
+      <div class="flex items-center gap-3 flex-wrap">
+        <span class="text-sm font-medium text-gray-600">Your Levels:</span>
+        <div id="levelBadges" class="flex gap-2 flex-wrap"></div>
+        <button 
+          onclick="openRequestModal()"
+          class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white rounded-full hover:opacity-90 transition shadow-sm"
+          style="background-color: var(--primary-purple)"
+        >
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Request New Level
+        </button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white rounded-xl p-4 mb-6 shadow-sm">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-2" style="color: var(--dark-text)">Search by Sheet Number</label>
+          <input 
+            type="number" 
+            id="sheetSearch"
+            placeholder="Enter sheet number (1-200)"
+            min="1"
+            max="200"
+            oninput="filterVideos()"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7e62a8] focus:border-transparent"
+          >
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2" style="color: var(--dark-text)">Filter by Level</label>
+          <select 
+            id="levelFilter"
+            onchange="filterVideos()"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7e62a8] focus:border-transparent"
+          >
+            <option value="">All Accessible Levels</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="text-center py-12">
+      <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#7e62a8] border-t-transparent"></div>
+      <p class="mt-4 text-gray-600">Loading videos...</p>
+    </div>
+
+    <!-- Video Grid -->
+    <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"></div>
+
+    <!-- Pagination -->
+    <div class="flex justify-center items-center space-x-4">
+      <button 
+        id="prevPage"
+        onclick="changePage(-1)"
+        class="px-4 py-2 text-white rounded-lg transition hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+        style="background-color: var(--primary-purple)"
+      >
+        ← Previous
+      </button>
+      <span id="pageInfo" class="text-sm font-medium text-gray-600">Page 1 of 1</span>
+      <button 
+        id="nextPage"
+        onclick="changePage(1)"
+        class="px-4 py-2 text-white rounded-lg transition hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+        style="background-color: var(--primary-purple)"
+      >
+        Next →
+      </button>
+    </div>
+  </main>
+
+  <!-- Request Level Modal -->
+  <div id="requestModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
+      <h3 class="text-2xl font-bold mb-4" style="color: var(--dark-text)">Request New Level Access</h3>
+      <form id="requestForm">
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-2" style="color: var(--dark-text)">Select Level</label>
+          <select 
+            id="requestLevel"
+            name="level"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7e62a8] focus:border-transparent"
+          >
+          </select>
+        </div>
+        <div class="mb-6">
+          <label class="block text-sm font-medium mb-2" style="color: var(--dark-text)">Message (Optional)</label>
+          <textarea 
+            name="message"
+            rows="4"
+            placeholder="Why do you want access to this level?"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7e62a8] focus:border-transparent"
+          ></textarea>
+        </div>
+        <div class="flex space-x-3">
+          <button 
+            type="button"
+            onclick="closeRequestModal()"
+            class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+          >
+            Cancel
+          </button>
+          <button 
+            type="submit"
+            class="flex-1 px-4 py-2 text-white rounded-lg transition hover:opacity-90"
+            style="background-color: var(--primary-purple)"
+          >
+            Submit Request
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/student-enhanced.js"></script>
+</body>
+</html>

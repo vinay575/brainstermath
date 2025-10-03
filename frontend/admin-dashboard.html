@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - BrainsterMath</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-teal-50 min-h-screen">
+  <!-- Header -->
+  <header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <div class="brain-logo-small"></div>
+          <div>
+            <h1 class="text-2xl font-bold text-purple-800">BrainsterMath</h1>
+            <p class="text-sm text-gray-600">Admin Dashboard</p>
+          </div>
+        </div>
+        <button 
+          onclick="logout()"
+          class="px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Tab Navigation -->
+    <div class="mb-8">
+      <div class="glass-card rounded-2xl p-2 inline-flex space-x-2">
+        <button 
+          onclick="switchTab('students')"
+          id="studentsTab"
+          class="admin-tab active px-6 py-3 rounded-xl font-semibold transition"
+        >
+          👥 Students
+        </button>
+        <button 
+          onclick="switchTab('videos')"
+          id="videosTab"
+          class="admin-tab px-6 py-3 rounded-xl font-semibold transition"
+        >
+          🎥 Videos
+        </button>
+      </div>
+    </div>
+
+    <!-- Students Section -->
+    <div id="studentsSection">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Student Management</h2>
+        <button 
+          onclick="openAddStudentModal()"
+          class="btn-primary px-6 py-3 rounded-lg font-semibold text-white transition shadow-lg hover:shadow-xl"
+        >
+          + Add Student
+        </button>
+      </div>
+
+      <!-- Students Table -->
+      <div class="glass-card rounded-2xl p-6 overflow-x-auto">
+        <table class="w-full" id="studentsTable">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="text-left py-3 px-4 font-semibold text-gray-700">Name</th>
+              <th class="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
+              <th class="text-left py-3 px-4 font-semibold text-gray-700">Level</th>
+              <th class="text-left py-3 px-4 font-semibold text-gray-700">Phone</th>
+              <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentsTableBody">
+            <tr>
+              <td colspan="5" class="text-center py-8 text-gray-500">Loading students...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Videos Section -->
+    <div id="videosSection" class="hidden">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Video Management</h2>
+        <button 
+          onclick="openAddVideoModal()"
+          class="btn-primary px-6 py-3 rounded-lg font-semibold text-white transition shadow-lg hover:shadow-xl"
+        >
+          + Add Video
+        </button>
+      </div>
+
+      <!-- Level Filter -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Level:</label>
+        <select 
+          id="videoLevelFilter"
+          onchange="filterVideos()"
+          class="input-field px-4 py-3 border border-gray-300 rounded-lg"
+        >
+          <option value="">All Levels</option>
+          <option value="1">Level 1</option>
+          <option value="2">Level 2</option>
+          <option value="3">Level 3</option>
+          <option value="4">Level 4</option>
+          <option value="5">Level 5</option>
+          <option value="6">Level 6</option>
+          <option value="7">Level 7</option>
+          <option value="8">Level 8</option>
+        </select>
+      </div>
+
+      <!-- Videos Grid -->
+      <div id="videosGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Video cards will be inserted here -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Add/Edit Student Modal -->
+  <div id="studentModal" class="modal hidden">
+    <div class="modal-overlay" onclick="closeStudentModal()"></div>
+    <div class="modal-content glass-card rounded-2xl p-8 max-w-md w-full mx-4">
+      <h3 class="text-2xl font-bold text-gray-800 mb-6" id="studentModalTitle">Add Student</h3>
+      
+      <form id="studentForm" class="space-y-4">
+        <input type="hidden" id="studentId">
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+          <input 
+            type="text" 
+            id="studentName"
+            required
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          >
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+          <input 
+            type="email" 
+            id="studentEmail"
+            required
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          >
+        </div>
+
+        <div id="passwordField">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Password *</label>
+          <input 
+            type="password" 
+            id="studentPassword"
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          >
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+          <input 
+            type="tel" 
+            id="studentPhone"
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          >
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+          <textarea 
+            id="studentAddress"
+            rows="2"
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          ></textarea>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Level *</label>
+          <select 
+            id="studentLevelSelect"
+            required
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          >
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+            <option value="4">Level 4</option>
+            <option value="5">Level 5</option>
+            <option value="6">Level 6</option>
+            <option value="7">Level 7</option>
+            <option value="8">Level 8</option>
+          </select>
+        </div>
+
+        <div class="flex space-x-3 pt-4">
+          <button 
+            type="button"
+            onclick="closeStudentModal()"
+            class="flex-1 px-4 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition"
+          >
+            Cancel
+          </button>
+          <button 
+            type="submit"
+            class="flex-1 btn-primary px-4 py-3 rounded-lg font-semibold text-white transition"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Video Modal -->
+  <div id="videoModal" class="modal hidden">
+    <div class="modal-overlay" onclick="closeVideoModal()"></div>
+    <div class="modal-content glass-card rounded-2xl p-8 max-w-md w-full mx-4">
+      <h3 class="text-2xl font-bold text-gray-800 mb-6">Add/Update Video</h3>
+      
+      <form id="videoForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Level *</label>
+          <select 
+            id="videoLevel"
+            required
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          >
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+            <option value="4">Level 4</option>
+            <option value="5">Level 5</option>
+            <option value="6">Level 6</option>
+            <option value="7">Level 7</option>
+            <option value="8">Level 8</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Sheet Number * (1-200)</label>
+          <input 
+            type="number" 
+            id="videoSheet"
+            min="1"
+            max="200"
+            required
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          >
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Slide *</label>
+          <select 
+            id="videoSlide"
+            required
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          >
+            <option value="A">Slide A</option>
+            <option value="B">Slide B</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Video URL * (YouTube embed or direct link)</label>
+          <input 
+            type="url" 
+            id="videoUrl"
+            required
+            placeholder="https://www.youtube.com/embed/..."
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          >
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Video Title</label>
+          <input 
+            type="text" 
+            id="videoTitle"
+            class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg"
+          >
+        </div>
+
+        <div class="flex space-x-3 pt-4">
+          <button 
+            type="button"
+            onclick="closeVideoModal()"
+            class="flex-1 px-4 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition"
+          >
+            Cancel
+          </button>
+          <button 
+            type="submit"
+            class="flex-1 btn-primary px-4 py-3 rounded-lg font-semibold text-white transition"
+          >
+            Save Video
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

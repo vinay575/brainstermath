@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrainsterMath</title>
+  <meta name="description" content="BrainsterMath E-Learning Platform - Unleashing the Genius in Every Child">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-teal-50 min-h-screen">
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <!-- Logo and Header -->
+      <div class="text-center mb-8">
+        <div class="flex justify-center mb-4">
+          <div class="brain-logo"></div>
+        </div>
+        <h1 class="text-4xl font-bold text-purple-800 mb-2">BrainsterMath</h1>
+      
+      </div>
+
+      <!-- Login Card -->
+      <div class="glass-card rounded-3xl p-8 shadow-xl">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Welcome Back</h2>
+
+        <!-- Error Alert -->
+        <div id="errorAlert" class="hidden mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+          <p id="errorMessage"></p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="space-y-5">
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email"
+              required
+              class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+              placeholder="your.email@example.com"
+            >
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password"
+              required
+              class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+              placeholder="••••••••"
+            >
+          </div>
+
+          <div>
+            <label for="role" class="block text-sm font-medium text-gray-700 mb-2">I am a:</label>
+            <select 
+              id="role" 
+              name="role"
+              required
+              class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+            >
+              <option value="student">Student</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
+          <button 
+            type="submit" 
+            id="loginButton"
+            class="btn-primary w-full py-3 px-6 rounded-lg font-semibold text-white transition transform hover:scale-105 shadow-lg"
+          >
+            Sign In
+          </button>
+        </form>
+
+        <!-- Signup Link -->
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-600">
+            Don't have an account? 
+            <a href="student-signup.html" class="text-purple-600 font-semibold hover:text-purple-700 transition">
+              Sign Up as Student
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Decorative Wave -->
+      <div class="wave-decoration mt-8"></div>
+    </div>
+  </div>
+
+  <script>
+    // Redirect to new login page
+    window.location.href = 'login.html';
+  </script>
+</body>
+</html>
