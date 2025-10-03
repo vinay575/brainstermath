@@ -1,5 +1,5 @@
 // Video Player JavaScript
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://brainstermath.onrender.com/api';
 
 let currentLevel, currentSheet, currentSlide;
 

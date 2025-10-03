@@ -1,5 +1,5 @@
 // Student Signup JavaScript
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://brainstermath.onrender.com/api';
 
 // Check if user is already logged in
 document.addEventListener('DOMContentLoaded', () => {

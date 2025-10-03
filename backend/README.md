@@ -159,7 +159,7 @@ npm run dev
 npm start
 ```
 
-Server will start at: `http://localhost:3000`
+Server will start at: `https://brainstermath.onrender.com`
 
 ## 📡 API Endpoints
 

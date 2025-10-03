@@ -155,7 +155,7 @@ npm run seed
 npm run dev
 ```
 
-The server will start at `http://localhost:3000`
+The server will start at `https://brainstermath.onrender.com`
 
 ### 8. Frontend Setup
 
@@ -348,5 +348,12 @@ For questions or issues, contact BrainsterMath support or create an issue in the
 ---
 
 Built with ❤️ for BrainsterMath
-#   b r a i n s t e r m a t h  
+#   b r a i n s t e r m a t h 
  
+ 
+
+
+
+http://localhost:3000
+
+https://brainstermath.onrender.com

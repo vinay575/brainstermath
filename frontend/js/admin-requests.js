@@ -224,12 +224,6 @@ async function rejectRequest(requestId, studentName) {
 
 
 
-
-
-
-
-
-
 // Filter requests table
 function filterRequestsTable() {
   renderRequestsTable();

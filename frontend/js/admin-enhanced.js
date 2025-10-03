@@ -1,5 +1,5 @@
 // Enhanced Admin Dashboard JavaScript with Charts
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://brainstermath.onrender.com/api';
 
 let currentTab = 'students';
 let allStudents = [];
