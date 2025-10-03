@@ -18,7 +18,8 @@ app.use(helmet());
 
 const allowedOrigins = [
   'http://localhost:5500',
-  'http://127.0.0.1:5500',
+  'http://127.0.0.1:5500'
+  'https://astounding-heliotrope-3bc097.netlify.app'
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
