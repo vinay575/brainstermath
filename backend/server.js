@@ -16,13 +16,15 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(helmet());
 
+// Allowed origins for CORS
 const allowedOrigins = [
   'http://localhost:5500',
-  'http://127.0.0.1:5500'
-  'https://astounding-heliotrope-3bc097.netlify.app'
+  'http://127.0.0.1:5500',
+  'https://astounding-heliotrope-3bc097.netlify.app',
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
+// CORS origin validator
 const originValidator = (origin, callback) => {
   if (!origin) return callback(null, true); // non-browser or same-origin
   const isAllowed =
@@ -33,10 +35,12 @@ const originValidator = (origin, callback) => {
   callback(isAllowed ? null : new Error('Not allowed by CORS'), isAllowed);
 };
 
+// Apply CORS
 app.use(cors({
   origin: originValidator,
   credentials: true
 }));
+
 app.use(express.json());
 app.use(morgan('dev'));
 
